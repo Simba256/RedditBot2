@@ -91,6 +91,8 @@ def main(search_terms):
             break
         failed_profiles = remaining_profiles
 
+    return search_terms
+
 
 
 
