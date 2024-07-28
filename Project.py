@@ -22,8 +22,19 @@ def main():
     ]
 
     # Get credentials from Streamlit secrets
-    credentials_dict = st.secrets["googleapi"]['credentials']
-    return credentials_dict
+    credentials_dict = {
+        "type": st.secrets["googleapi"]["type"],
+        "project_id": st.secrets["googleapi"]["project_id"],
+        "private_key_id": st.secrets["googleapi"]["private_key_id"],
+        "private_key": st.secrets["googleapi"]["private_key"],
+        "client_email": st.secrets["googleapi"]["client_email"],
+        "client_id": st.secrets["googleapi"]["client_id"],
+        "auth_uri": st.secrets["googleapi"]["auth_uri"],
+        "token_uri": st.secrets["googleapi"]["token_uri"],
+        "auth_provider_x509_cert_url": st.secrets["googleapi"]["auth_provider_x509_cert_url"],
+        "client_x509_cert_url": st.secrets["googleapi"]["client_x509_cert_url"]
+    }
+
     scopes = ["https://www.googleapis.com/auth/spreadsheets"]
     creds = Credentials.from_service_account_info(credentials_dict, scopes=scopes)
     client = gspread.authorize(creds)
@@ -32,6 +43,8 @@ def main():
     values_list = sheet.get_all_values()
     column_data = [row[6] for row in values_list[1:] if len(row) > 6]
     search_terms = [item for item in column_data if item]
+    print(search_terms)
+
     print(search_terms)
     return search_terms
 
