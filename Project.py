@@ -8,6 +8,8 @@ from OpenCommunities import open_communities
 from ScrollThrough import scroll_through
 import streamlit as st
 from time import sleep
+import urllib3
+from requests.exceptions import ConnectionError
 
 def main(search_terms):
     # Define the Multilogin profile ID and search terms
@@ -45,25 +47,49 @@ def main(search_terms):
     search_terms = [item for item in column_data if item]
     print(search_terms)
 
-    print(search_terms)
+    failed_profiles = []
 
-    i = 0
-    while i < 4:
+    def process_profile(profile_id):
         try:
-            driver = open_reddit_with_multilogin(mla_profile_ids[i])
+            driver = open_reddit_with_multilogin(profile_id)
             for k in range(100):
                 print(k)
             driver.quit()
             print("Before sleeping")
             sleep(20)
             print("After sleeping")
-        except:
+            return True
+        except (ConnectionError, urllib3.exceptions.NewConnectionError) as e:
+            print(f"Connection error with profile ID {profile_id}: {e}")
             print("Before sleeping1")
             sleep(20)
             print("After Sleeping1")
-            i = i - 1
-        i = i + 1
-    
+            return False
+        except Exception as e:
+            print(f"An unexpected error occurred with profile ID {profile_id}: {e}")
+            return False
+
+    i = 0
+    while i < len(mla_profile_ids):
+        profile_id = mla_profile_ids[i]
+        if not process_profile(profile_id):
+            failed_profiles.append(profile_id)
+        i += 1
+
+    # Retry failed profiles
+    retry_failed = True
+    while retry_failed and failed_profiles:
+        retry_failed = False
+        remaining_profiles = []
+        for profile_id in failed_profiles:
+            if not process_profile(profile_id):
+                remaining_profiles.append(profile_id)
+                retry_failed = True
+        if len(remaining_profiles) == len(failed_profiles):
+            print("All remaining ids failing")
+            print(remaining_profiles)
+            break
+        failed_profiles = remaining_profiles
 
 
 
@@ -71,6 +97,7 @@ def main(search_terms):
 
 # if __name__ == "__main__":
 #     main()
+
 
 
 
