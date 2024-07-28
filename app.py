@@ -13,7 +13,8 @@ def start_script():
     if process is None:
         process = subprocess.Popen(['python', 'Project.py'])
         print("Script started.")
-        search_results = main()
+        search_results = []
+        search_results = main(search_results)
         st.write("Script started.")
         st.write(search_results)
     else:

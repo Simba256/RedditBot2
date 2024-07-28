@@ -9,7 +9,7 @@ from ScrollThrough import scroll_through
 import streamlit as st
 from time import sleep
 
-def main():
+def main(search_terms):
     # Define the Multilogin profile ID and search terms
     mla_profile_ids = [
         '2a368372-35c1-4d26-9d31-84732c68b2e9',
@@ -69,8 +69,8 @@ def main():
 
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
 
 
 
