@@ -46,7 +46,6 @@ def main():
     print(search_terms)
 
     print(search_terms)
-    return search_terms
 
     i = 0
     while i < 4:
@@ -64,6 +63,7 @@ def main():
             print("After Sleeping1")
             i = i - 1
         i = i + 1
+    
 
 
 
