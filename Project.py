@@ -23,7 +23,7 @@ def main():
 
     # Get credentials from Streamlit secrets
     credentials_dict = st.secrets["googleapi"]['credentials']
-
+    return credentials_dict
     scopes = ["https://www.googleapis.com/auth/spreadsheets"]
     creds = Credentials.from_service_account_info(credentials_dict, scopes=scopes)
     client = gspread.authorize(creds)
