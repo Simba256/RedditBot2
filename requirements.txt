@@ -1,0 +1,8 @@
+streamlit
+gspread
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+google-auth
+selenium==4.21.0
+requests==2.32.3
